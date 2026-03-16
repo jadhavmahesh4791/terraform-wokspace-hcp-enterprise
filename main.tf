@@ -32,8 +32,8 @@ data "aws_iam_policy_document" "allow_access" {
 
     # Define the resources (Bucket itself and all objects inside)
     resources = [
-      aws_s3_bucket.my_bucket,
-      "${aws_s3_bucket.my_bucket}/*",
+      aws_s3_bucket.my_bucket.arn,
+      "${aws_s3_bucket.my_bucket.arn}/*"
     ]
   }
 }
