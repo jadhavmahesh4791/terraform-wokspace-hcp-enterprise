@@ -12,3 +12,28 @@ resource "aws_s3_bucket" "my_bucket" {
     Environment = "Production"
   }
 }
+
+data "aws_iam_policy_document" "allow_access" {
+  statement {
+    sid    = "AllowSpecificAccount"
+    effect = "Allow"
+
+    # Define who can access the bucket
+    principals {
+      type        = "AWS"
+      identifiers = ["230609304704"] # Replace with real Account ID or IAM Role ARN
+    }
+
+    # Define allowed actions
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket",
+    ]
+
+    # Define the resources (Bucket itself and all objects inside)
+    resources = [
+      aws_s3_bucket.my_bucket,
+      "${aws_s3_bucket.my_bucket}/*",
+    ]
+  }
+}
